@@ -1,37 +1,38 @@
-import React, { useState } from 'react';
+import React, { useState } from "react";
+import Item from "./Item";
 
-function ShoppingList() {
-  const [selectedCategory, setSelectedCategory] = useState('');
+function ShoppingList({ items }) {
+  const [selectedCategory, setSelectedCategory] = useState("");
 
   const handleCategoryChange = (event) => {
     setSelectedCategory(event.target.value);
   };
 
-  // Assume you have an array of items and each item has a category property
-  const items = [
-    { name: 'Item 1', category: 'Category A' },
-    { name: 'Item 2', category: 'Category B' },
-    { name: 'Item 3', category: 'Category A' },
-    // ...more items
-  ];
-
-  const filteredItems = selectedCategory
-    ? items.filter((item) => item.category === selectedCategory)
-    : items;
+  const filteredItems =
+    selectedCategory === ""
+      ? items
+      : items.filter((item) => item.category === selectedCategory);
 
   return (
-    <div>
-      <select value={selectedCategory} onChange={handleCategoryChange}>
-        <option value="">All Categories</option>
-        <option value="Category A">Category A</option>
-        <option value="Category B">Category B</option>
-        {/* Add more options for categories */}
+    <div className="ShoppingList">
+      <label htmlFor="category-select">Filter by category:</label>
+      <select
+        id="category-select"
+        value={selectedCategory}
+        onChange={handleCategoryChange}
+      >
+        <option value="">All</option>
+        <option value="Dairy">Dairy</option>
+        <option value="Produce">Produce</option>
+        <option value="Dessert">Dessert</option>
       </select>
-      <ul>
+
+      <div className="Items">
         {filteredItems.map((item) => (
-          <item key={item.name} item={item} />
+          <Item key={item.id} name={item.name} category={item.category}/>
+         
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
